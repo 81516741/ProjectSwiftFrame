@@ -10,7 +10,7 @@
 5.常用view弹框</br>
 6.整体采用target-action的组件式开发模式</br>
 7.xib的尺寸适配，字体适配的封装</br>
-8.xib行为的组件封装，可以不用一行代码，完成</br>textfield 和 button 等控件的复杂逻辑处理
+8.xib行为的组件封装，可以不用一行代码，完成textfield 和 button 等控件的复杂逻辑处理
 # 联系我
 QQ 81516741
 
