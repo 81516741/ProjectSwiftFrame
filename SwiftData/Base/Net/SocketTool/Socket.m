@@ -168,7 +168,6 @@
                } @catch (NSException *exception) {
                    NSLog(@"%@",exception);
                }
-               
            });
            break;
        }
