@@ -11,7 +11,7 @@
 @interface Socket : NSObject
 - (void)connect:(NSString *)host toPort:(UInt16)port;
 - (void)send:(NSData *)data;
-- (BOOL)close;
+- (void)close;
 - (BOOL)startTSL;
 @property(copy, nonatomic) void(^connectResult)(BOOL isConnected);
 @property(copy, nonatomic) void(^sendResult)(BOOL isSended);

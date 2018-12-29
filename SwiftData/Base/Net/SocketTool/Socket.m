@@ -31,22 +31,22 @@
 }
 
 -(void)connect:(NSString *)host toPort:(UInt16)port {
-    if (_inputStream == nil || _outputStream == nil) {
-        CFReadStreamRef   readStream;
-        CFWriteStreamRef  writeStram;
-        CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)host,(int)port,&readStream, &writeStram);
-        if (readStream == nil || writeStram == nil) {
-            if (self.connectResult) {
-                self.connectResult(NO);
-            }
+    [self resetSocket];
+    CFReadStreamRef   readStream;
+    CFWriteStreamRef  writeStram;
+    CFStreamCreatePairWithSocketToHost(NULL, (__bridge CFStringRef)host,(int)port,&readStream, &writeStram);
+    if (readStream == nil || writeStram == nil) {
+        if (self.connectResult) {
+            self.connectResult(NO);
         }
-        self.host = host;
-        self.port = port;
-        self.inputStream = (__bridge NSInputStream *)readStream;
-        self.outputStream = (__bridge NSOutputStream *)writeStram;
-        self.inputStream.delegate = self;
-        self.outputStream.delegate = self;
+        return;
     }
+    _host = host;
+    _port = port;
+    _inputStream = (__bridge NSInputStream *)readStream;
+    _outputStream = (__bridge NSOutputStream *)writeStram;
+    _inputStream.delegate = self;
+    _outputStream.delegate = self;
     [_inputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     [_outputStream scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     [_inputStream open];
@@ -115,6 +115,101 @@
     return YES;
 }
 
+-(void)close {
+    [self resetSocket];
+    if (self.connectResult) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.connectResult(false);
+        });
+    }
+}
+- (void)resetSocket {
+    [_inputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [_outputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
+    [_inputStream close];
+    [_outputStream close];
+    _inputStream = nil;
+    _outputStream = nil;
+    _isOpenInputStream = NO;
+    _isOpenOutputStream = NO;
+}
+#pragma mark NSStreamDelegate
+-(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
+    
+    dispatch_async(_eventQueue, ^
+                   {
+                       switch (eventCode)
+                       {
+                           case NSStreamEventOpenCompleted:
+                               //输入输出流打开完成
+                               if (aStream == self.inputStream) {
+                                   self.isOpenInputStream = YES;
+                               }
+                               if (aStream == self.outputStream) {
+                                   self.isOpenOutputStream = YES;
+                               }
+                               if (self.isOpenInputStream &&
+                                   self.isOpenOutputStream) {
+                                   if (self.connectResult) {
+                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                           self.connectResult(true);
+                                       });
+                                   }
+                               }
+                               break;
+                           case NSStreamEventHasBytesAvailable:
+                               //有字节可读
+                               [self recvData];
+                               break;
+                           case NSStreamEventHasSpaceAvailable:
+                               //可以发放字节
+                               break;
+                           case NSStreamEventErrorOccurred:
+                               //连接出现错误（断网会来这里）
+                               if (aStream == self.inputStream) {
+                                   self.isOpenInputStream = NO;
+                               }
+                               if (aStream == self.outputStream) {
+                                   self.isOpenOutputStream = NO;
+                               }
+                               if (!self.isOpenInputStream &&
+                                   !self.isOpenOutputStream) {
+                                   NSLog(@"连接错误");
+                                   [self resetSocket];
+                                   if (self.connectResult) {
+                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                           self.connectResult(false);
+                                       });
+                                   }
+                               }
+                               break;
+                           case NSStreamEventEndEncountered:
+                               // 连接结束（服务器主动断开会来这里-心跳不及时）
+                               if (aStream == self.inputStream) {
+                                   self.isOpenInputStream = NO;
+                               }
+                               if (aStream == self.outputStream) {
+                                   self.isOpenOutputStream = NO;
+                               }
+                               if (!self.isOpenInputStream &&
+                                   !self.isOpenOutputStream) {
+                                   NSLog(@"连接结束");
+                                   [self resetSocket];
+                                   if (self.connectResult) {
+                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                           self.connectResult(false);
+                                       });
+                                   }
+                               }
+                               break;
+                           default:
+                               break;
+                       }
+                   });
+    
+}
+
+#pragma mark - TSL
 -(BOOL)startTSL {
     NSMutableDictionary *sslSettings = [[NSMutableDictionary alloc] init];
     //获取证书内容 设置到socket
@@ -160,99 +255,5 @@
     CFRelease(myIdent);
     CFRelease(myCerts);
     return YES;
-}
--(BOOL)close {
-    if((nil==_inputStream)||(nil==_outputStream)) {
-        return NO;
-    }
-    [_inputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-    [_outputStream removeFromRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
-    [_inputStream close];
-    [_outputStream close];
-    _inputStream = nil;
-    _outputStream = nil;
-    _isOpenInputStream = NO;
-    _isOpenOutputStream = NO;
-    if (self.connectResult) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.connectResult(false);
-        });
-    }
-    return YES;
-}
-#pragma mark NSStreamDelegate
--(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
-    
-    dispatch_async(_eventQueue, ^
-                   {
-                       switch (eventCode)
-                       {
-                           case NSStreamEventOpenCompleted:
-                               //输入输出流打开完成
-                               if (aStream == self.inputStream) {
-                                   self.isOpenInputStream = YES;
-                               }
-                               if (aStream == self.outputStream) {
-                                   self.isOpenOutputStream = YES;
-                               }
-                               if (self.isOpenInputStream &&
-                                   self.isOpenOutputStream) {
-                                   if (self.connectResult) {
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           self.connectResult(true);
-                                       });
-                                   }
-                               }
-                               break;
-                           case NSStreamEventHasBytesAvailable:
-                               //有字节可读
-                               [self recvData];
-                               break;
-                           case NSStreamEventHasSpaceAvailable:
-                               //可以发放字节
-                               break;
-                           case NSStreamEventErrorOccurred:
-                               //连接出现错误（断网会来这里）
-                               if (aStream == self.inputStream) {
-                                   self.isOpenInputStream = NO;
-                               }
-                               if (aStream == self.outputStream) {
-                                   self.isOpenOutputStream = NO;
-                               }
-                               if (!self.isOpenInputStream &&
-                                   !self.isOpenOutputStream) {
-                                   NSLog(@"连接错误");
-                                   [self close];
-                                   if (self.connectResult) {
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           self.connectResult(false);
-                                       });
-                                   }
-                               }
-                               break;
-                           case NSStreamEventEndEncountered:
-                               // 连接结束（服务器主动断开会来这里-心跳不及时）
-                               if (aStream == self.inputStream) {
-                                   self.isOpenInputStream = NO;
-                               }
-                               if (aStream == self.outputStream) {
-                                   self.isOpenOutputStream = NO;
-                               }
-                               if (!self.isOpenInputStream &&
-                                   !self.isOpenOutputStream) {
-                                   NSLog(@"连接结束");
-                                   [self close];
-                                   if (self.connectResult) {
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           self.connectResult(false);
-                                       });
-                                   }
-                               }
-                               break;
-                           default:
-                               break;
-                       }
-                   });
-    
 }
 @end

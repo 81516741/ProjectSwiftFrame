@@ -69,7 +69,7 @@
 		0DBBA73C21B5311900CF501A /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBBA73B21B5311900CF501A /* HomeVC.swift */; };
 		0DBBA74121B5311A00CF501A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0DBBA74021B5311A00CF501A /* Assets.xcassets */; };
 		0DBBA74421B5311A00CF501A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0DBBA74221B5311A00CF501A /* LaunchScreen.storyboard */; };
-		0DBBA76621B6790000CF501A /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBBA76121B6790000CF501A /* Model.swift */; };
+		0DBBA76621B6790000CF501A /* TestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBBA76121B6790000CF501A /* TestModel.swift */; };
 		0DBBA76821B6790000CF501A /* HTTPLoginServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBBA76321B6790000CF501A /* HTTPLoginServices.swift */; };
 		0DBBA76921B6790000CF501A /* HTTPBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBBA76421B6790000CF501A /* HTTPBase.swift */; };
 		0DBBA76A21B6790000CF501A /* HTTPLoginTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DBBA76521B6790000CF501A /* HTTPLoginTool.swift */; };
@@ -157,7 +157,7 @@
 		0DBBA74321B5311A00CF501A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0DBBA74521B5311A00CF501A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0DBBA74B21B5312900CF501A /* SwiftData-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SwiftData-Bridging-Header.h"; sourceTree = "<group>"; };
-		0DBBA76121B6790000CF501A /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		0DBBA76121B6790000CF501A /* TestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestModel.swift; sourceTree = "<group>"; };
 		0DBBA76321B6790000CF501A /* HTTPLoginServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPLoginServices.swift; sourceTree = "<group>"; };
 		0DBBA76421B6790000CF501A /* HTTPBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPBase.swift; sourceTree = "<group>"; };
 		0DBBA76521B6790000CF501A /* HTTPLoginTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPLoginTool.swift; sourceTree = "<group>"; };
@@ -377,7 +377,7 @@
 		0D2C104F21C8DD96009C6FAB /* Net */ = {
 			isa = PBXGroup;
 			children = (
-				0DBBA76121B6790000CF501A /* Model.swift */,
+				0DBBA76121B6790000CF501A /* TestModel.swift */,
 				0D2C105021C8DDB9009C6FAB /* ConnectSocketTool.swift */,
 				0D2C104D21C8D50C009C6FAB /* NetCheckTool.swift */,
 				0DBBA75121B6288900CF501A /* HTTPTool */,
@@ -644,7 +644,7 @@
 				0D1268E421D5FBE9008A5547 /* Target_Login.swift in Sources */,
 				0D1268E821D600F8008A5547 /* XIbCornerRadius.swift in Sources */,
 				0D1268B421D5BA95008A5547 /* NSObject+LDMonitor.m in Sources */,
-				0DBBA76621B6790000CF501A /* Model.swift in Sources */,
+				0DBBA76621B6790000CF501A /* TestModel.swift in Sources */,
 				0D1268A721D5BA95008A5547 /* ButtonBehavior.swift in Sources */,
 				0DBBA76E21B6907F00CF501A /* XMLUtil.m in Sources */,
 				0D1268C321D5BB27008A5547 /* Target_Home.swift in Sources */,
