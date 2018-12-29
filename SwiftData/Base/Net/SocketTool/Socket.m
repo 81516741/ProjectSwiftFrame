@@ -10,7 +10,7 @@
 @interface Socket()<NSStreamDelegate>
 @property(strong, nonatomic) NSInputStream * inputStream;
 @property(strong, nonatomic) NSOutputStream * outputStream;
-@property(strong, nonatomic) dispatch_queue_t eventQueue;
+@property(strong, nonatomic) dispatch_queue_t readQueue;
 @property(strong, nonatomic) dispatch_queue_t writeQueue;
 @property(copy, nonatomic) NSString * host;
 @property(assign, nonatomic) UInt16 port;
@@ -22,10 +22,10 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.eventQueue = dispatch_queue_create("socket回包的队列",NULL);
+        self.readQueue = dispatch_queue_create("socket回包的队列",NULL);
         self.writeQueue = dispatch_queue_create("socket发送消息的队列",NULL);
-        self.isOpenInputStream = false;
-        self.isOpenOutputStream = false;
+        self.isOpenInputStream = NO;
+        self.isOpenOutputStream = NO;
     }
     return self;
 }
@@ -66,7 +66,7 @@
             return;
         }
     }
-    dispatch_async(self.eventQueue, ^{
+    dispatch_async(self.writeQueue, ^{
         NSInteger sendLen = [self.outputStream write:data.bytes maxLength:data.length];
         dispatch_async(dispatch_get_main_queue(), ^{
             if(sendLen != data.length) {
@@ -135,78 +135,76 @@
 }
 #pragma mark NSStreamDelegate
 -(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode {
-    
-    dispatch_async(_eventQueue, ^
-                   {
-                       switch (eventCode)
-                       {
-                           case NSStreamEventOpenCompleted:
-                               //输入输出流打开完成
-                               if (aStream == self.inputStream) {
-                                   self.isOpenInputStream = YES;
-                               }
-                               if (aStream == self.outputStream) {
-                                   self.isOpenOutputStream = YES;
-                               }
-                               if (self.isOpenInputStream &&
-                                   self.isOpenOutputStream) {
-                                   if (self.connectResult) {
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           self.connectResult(true);
-                                       });
-                                   }
-                               }
-                               break;
-                           case NSStreamEventHasBytesAvailable:
-                               //有字节可读
-                               [self recvData];
-                               break;
-                           case NSStreamEventHasSpaceAvailable:
-                               //可以发放字节
-                               break;
-                           case NSStreamEventErrorOccurred:
-                               //连接出现错误（断网会来这里）
-                               if (aStream == self.inputStream) {
-                                   self.isOpenInputStream = NO;
-                               }
-                               if (aStream == self.outputStream) {
-                                   self.isOpenOutputStream = NO;
-                               }
-                               if (!self.isOpenInputStream &&
-                                   !self.isOpenOutputStream) {
-                                   NSLog(@"连接错误");
-                                   [self resetSocket];
-                                   if (self.connectResult) {
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           self.connectResult(false);
-                                       });
-                                   }
-                               }
-                               break;
-                           case NSStreamEventEndEncountered:
-                               // 连接结束（服务器主动断开会来这里-心跳不及时）
-                               if (aStream == self.inputStream) {
-                                   self.isOpenInputStream = NO;
-                               }
-                               if (aStream == self.outputStream) {
-                                   self.isOpenOutputStream = NO;
-                               }
-                               if (!self.isOpenInputStream &&
-                                   !self.isOpenOutputStream) {
-                                   NSLog(@"连接结束");
-                                   [self resetSocket];
-                                   if (self.connectResult) {
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           self.connectResult(false);
-                                       });
-                                   }
-                               }
-                               break;
-                           default:
-                               break;
-                       }
+   switch (eventCode) {
+       case NSStreamEventOpenCompleted:
+           //输入输出流打开完成
+           if (aStream == self.inputStream) {
+               self.isOpenInputStream = YES;
+           }
+           if (aStream == self.outputStream) {
+               self.isOpenOutputStream = YES;
+           }
+           if (self.isOpenInputStream &&
+               self.isOpenOutputStream) {
+               if (self.connectResult) {
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                       NSLog(@"连接成功");
+                       self.connectResult(true);
                    });
-    
+               }
+           }
+           break;
+       case NSStreamEventHasBytesAvailable:{
+           //有字节可读
+           dispatch_async(self.readQueue, ^{
+               [self recvData];
+           });
+           break;
+       }
+       case NSStreamEventHasSpaceAvailable:
+           //可以发放字节
+           break;
+       case NSStreamEventErrorOccurred:
+           //连接出现错误（断网会来这里）
+           if (aStream == self.inputStream) {
+               self.isOpenInputStream = NO;
+           }
+           if (aStream == self.outputStream) {
+               self.isOpenOutputStream = NO;
+           }
+           if (!self.isOpenInputStream &&
+               !self.isOpenOutputStream) {
+               NSLog(@"连接错误");
+               [self resetSocket];
+               if (self.connectResult) {
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                       self.connectResult(false);
+                   });
+               }
+           }
+           break;
+       case NSStreamEventEndEncountered:
+           // 连接结束（服务器主动断开会来这里-心跳不及时）
+           if (aStream == self.inputStream) {
+               self.isOpenInputStream = NO;
+           }
+           if (aStream == self.outputStream) {
+               self.isOpenOutputStream = NO;
+           }
+           if (!self.isOpenInputStream &&
+               !self.isOpenOutputStream) {
+               NSLog(@"连接结束");
+               [self resetSocket];
+               if (self.connectResult) {
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                       self.connectResult(false);
+                   });
+               }
+           }
+           break;
+       default:
+           break;
+   }
 }
 
 #pragma mark - TSL
