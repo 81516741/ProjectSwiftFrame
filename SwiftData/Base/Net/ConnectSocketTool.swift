@@ -61,16 +61,14 @@ class ConnectSocketTool: NSObject {
     fileprivate class func connectStateHandle() -> AnyObserver<ConnectState> {
         return AnyObserver { event in
             if let state = event.element {
-                if state == .connected {//连接成功
+                if state == .connected {
                     SocketTool.openStream()
                 } else if state == .disConnect {
-                    /*因为SocketTool的send方法会根据openStreamBehavior的值
-                    判断是否可以发送消息，具体请看对应方法*/
                     SocketTool.openStreamBehavior.accept(.none)
                     stopHeart()
-                    //有网络才去重连，如果连接成功了，那么host和port是一定存在的
+                    //有网络才去重连
                     if NetCheckTool.netState.value == .netHas {
-                        SocketTool.buildConnect(toHost: SocketManager.default.host, toPort: SocketManager.default.port)
+                        SocketTool.buildConnect(toHost: SocketManager.default.host(), toPort: SocketManager.default.port())
                     }
                 }
             }
@@ -80,9 +78,8 @@ class ConnectSocketTool: NSObject {
         return AnyObserver { event in
             if let netState = event.element {
                 if netState == .netHas {
-                    //已经获取了port 和 host(port 和 host 必是同时有值的)
-                    if SocketManager.default.host.count != 0 {
-                        SocketTool.buildConnect(toHost: SocketManager.default.host, toPort: SocketManager.default.port)
+                    if SocketManager.default.host().count != 0 {
+                        SocketTool.buildConnect(toHost: SocketManager.default.host(), toPort: SocketManager.default.port())
                     } else {
                         stopTimeAddress()
                         timerAddress = startTimer(timeInterval: requestIT) {
@@ -99,8 +96,8 @@ class ConnectSocketTool: NSObject {
         return AnyObserver { event in
             if let host = event.element?.first,let port = event.element?.last {
                 stopTimeAddress()
-                //已经连接过 取消所有请求(port 和 host 必是同时有值的)
-                if SocketManager.default.host.count > 0 {
+                //已经连接过 取消所有请求
+                if SocketManager.default.host().count > 0 {
                     cancelAllIPRequest()
                 } else {
                     SocketTool.buildConnect(toHost: host, toPort: port)

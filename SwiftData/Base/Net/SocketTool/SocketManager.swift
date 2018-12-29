@@ -22,9 +22,9 @@ class SocketManager: NSObject {
     let messageSubject = PublishSubject<String>()
     let sendMsdSubject = PublishSubject<String>()
     let connectRelay = BehaviorRelay<ConnectState>(value: .none)
-    var socket:Socket!
-    var host:String = ""
-    var port:String = ""
+    fileprivate var socket:Socket!
+    fileprivate var hostStr:String = ""
+    fileprivate var portStr:String = ""
     
     func connect(toHost host:String?,toPort port:String?) {
         guard let host0 = host else {
@@ -39,8 +39,8 @@ class SocketManager: NSObject {
             Log("port:" + port0 + "不是UInt16格式")
             return
         }
-        self.host = host0
-        self.port = port0
+        self.hostStr = host0
+        self.portStr = port0
         if socket == nil {
             socket = Socket()
             socket.connectResult = {
@@ -61,10 +61,15 @@ class SocketManager: NSObject {
         }
     }
     
+    func close() {
+        socket.close()
+    }
+    
     func send(message msg:String) {
         if connectRelay.value != .connected {
             Log("socket没有连接服务器")
             self.sendMsdSubject.onNext(msg)
+            return;
         }
         if let data = msg.data(using: .utf8) {
             Log("发送消息：\(msg)")
@@ -86,5 +91,12 @@ class SocketManager: NSObject {
     func startTLS() {
         Log("开启TLS")
         socket.startTSL()
+    }
+    
+    func host()->String {
+        return hostStr
+    }
+    func port()->String {
+        return portStr
     }
 }

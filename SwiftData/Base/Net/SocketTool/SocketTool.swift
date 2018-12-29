@@ -36,10 +36,14 @@ class SocketTool: NSObject {
         SocketManager.default.connect(toHost: toHost, toPort: toPort)
     }
     class func prepareSocket() {
+        listenConnectState()
         listenSendState()
         listenMessage()
         listenStreamMsg()
         listenOpenStream()
+    }
+    fileprivate class func listenConnectState() {
+        _ = SocketManager.default.connectRelay.bind(to: connectStateHandle())
     }
     fileprivate class func listenSendState() {
         _ = SocketManager.default.sendMsdSubject.bind(to: sendStateHandle())
@@ -47,7 +51,15 @@ class SocketTool: NSObject {
     fileprivate class func listenMessage() {
         _ = SocketManager.default.messageSubject.bind(to: msgHandle())
     }
-    
+    fileprivate class func connectStateHandle() -> AnyObserver<ConnectState> {
+        return AnyObserver { event in
+            if let state = event.element {
+                if state == .disConnect {
+                    blocks.removeAll()
+                }
+            }
+        }
+    }
     fileprivate class func sendStateHandle() -> AnyObserver<String> {
         return AnyObserver { event in
             if let msg = event.element {
