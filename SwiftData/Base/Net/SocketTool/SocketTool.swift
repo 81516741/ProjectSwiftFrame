@@ -188,7 +188,6 @@ extension SocketTool {
     }
     fileprivate class func openStreamOK() {
         Log("-------握手完成-------");
-        LocalDeviceUdpTool.startSearchDevice()
     }
 }
 

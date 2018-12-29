@@ -16,8 +16,8 @@ class UdpSocketManager: NSObject {
     let messageSubject = PublishSubject<String>()
     let errorSubject = PublishSubject<String>()
     var host = "255.255.255.255"
-    var port : UInt16 = 10075
-    var bindPort : UInt16 = 10074
+    var port : UInt16!
+    var bindPort : UInt16!
     var udpSocket : GCDAsyncUdpSocket?
     func send(_ msg:String) {
         if udpSocket == nil { configUdpSocket() }
@@ -34,8 +34,10 @@ class UdpSocketManager: NSObject {
         }
     }
     
-    func configUdpSocket(_ host:String = "255.255.255.255",_ port:UInt16 = 10075,_ bindPort:UInt16 = 10074) {
+    func configUdpSocket(_ port:UInt16 = 10075,_ bindPort:UInt16 = 10074) {
         udpSocket = GCDAsyncUdpSocket.init(delegate: self, delegateQueue: udpSocketQueue)
+        self.port = port
+        self.bindPort = bindPort
         try? udpSocket?.enableBroadcast(true)
         try? udpSocket?.bind(toPort: bindPort)
     }

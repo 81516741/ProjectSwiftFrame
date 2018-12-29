@@ -68,15 +68,17 @@
     }
     dispatch_async(self.eventQueue, ^{
         NSInteger sendLen = [self.outputStream write:data.bytes maxLength:data.length];
-        if(sendLen != data.length) {
-            if (self.sendResult) {
-                self.sendResult(NO);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(sendLen != data.length) {
+                if (self.sendResult) {
+                    self.sendResult(NO);
+                }
+            } else {
+                if (self.sendResult) {
+                    self.sendResult(YES);
+                }
             }
-        } else {
-            if (self.sendResult) {
-                self.sendResult(YES);
-            }
-        }
+        });
     });
 }
 -(BOOL)recvData {
@@ -172,7 +174,9 @@
     _isOpenInputStream = NO;
     _isOpenOutputStream = NO;
     if (self.connectResult) {
-        self.connectResult(false);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.connectResult(false);
+        });
     }
     return YES;
 }
