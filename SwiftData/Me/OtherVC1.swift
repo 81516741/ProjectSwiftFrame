@@ -13,8 +13,8 @@ class OtherVC1: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.purple
-        ld_theme = .blue
         title = "好的"
+        ld_naviBarColor = UIColor.red
     }
 
     

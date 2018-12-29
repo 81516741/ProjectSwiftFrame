@@ -7,19 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
-typedef NS_ENUM(NSInteger){
-    NaviBarThemeWhite = 0,
-    NaviBarThemeBlue
-}NaviBarTheme;
+#import "UINavigationController+LDBase.h"
 
 @interface UIViewController (LDNaviBar)
-
-/**
- 导航条主题颜色
- */
-@property (nonatomic,assign) NaviBarTheme ld_theme;
-
 /**
  禁止全屏pop
  */

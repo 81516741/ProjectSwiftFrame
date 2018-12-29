@@ -79,7 +79,9 @@ class ConnectSocketTool: NSObject {
             if let netState = event.element {
                 if netState == .netHas {
                     if SocketManager.default.host().count != 0 {
-                        SocketTool.buildConnect(toHost: SocketManager.default.host(), toPort: SocketManager.default.port())
+                        if SocketManager.default.connectRelay.value != .connected {
+                           SocketTool.buildConnect(toHost: SocketManager.default.host(), toPort: SocketManager.default.port())
+                        }
                     } else {
                         stopTimeAddress()
                         timerAddress = startTimer(timeInterval: requestIT) {

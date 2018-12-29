@@ -7,6 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef NS_ENUM(NSInteger){
+    NaviBarThemeWhite = 0,
+    NaviBarThemeBlue
+}NaviBarTheme;
 @interface UINavigationController (LDBase)<UIGestureRecognizerDelegate>
+/**
+ 导航条主题颜色
+ */
+@property (nonatomic,assign) NaviBarTheme ld_theme;
 @end

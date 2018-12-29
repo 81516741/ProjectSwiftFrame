@@ -13,7 +13,6 @@
 #import "UINavigationController+LDBase.h"
 
 
-
 @interface UIViewController (LDBasePrivate)
 @property (strong ,nonatomic)UIColor * ld_rightItemColor;
 @end
@@ -102,11 +101,11 @@
 {
     UIColor * worldColor;
     NSString * backIconName;
-    if (self.ld_theme == NaviBarThemeWhite) {
+    if (self.navigationController.ld_theme == NaviBarThemeWhite) {
         worldColor = [UIColor grayColor];
         backIconName = @"icon_back_gray";
         [self ld_setNavibarColor:[UIColor whiteColor]];
-    } else if (self.ld_theme == NaviBarThemeBlue) {
+    } else if (self.navigationController.ld_theme == NaviBarThemeBlue) {
         worldColor = [UIColor whiteColor];
         backIconName = @"icon_back_white";
         [self ld_setNavibarColor:[UIColor blueColor]];
@@ -214,15 +213,5 @@
 - (void)setLd_naviBarColor:(UIColor *)ld_naviBarColor
 {
     objc_setAssociatedObject(self, @selector(ld_naviBarColor), ld_naviBarColor, OBJC_ASSOCIATION_RETAIN);
-}
-
-- (void)setLd_theme:(NaviBarTheme)ld_theme
-{
-    objc_setAssociatedObject(self, @selector(ld_theme), @(ld_theme), OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (NaviBarTheme)ld_theme
-{
-    return [objc_getAssociatedObject(self, _cmd) integerValue];
 }
 @end

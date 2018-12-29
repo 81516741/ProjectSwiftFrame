@@ -67,18 +67,24 @@
         }
     }
     dispatch_async(self.writeQueue, ^{
-        NSInteger sendLen = [self.outputStream write:data.bytes maxLength:data.length];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(sendLen != data.length) {
-                if (self.sendResult) {
-                    self.sendResult(NO);
+        NSInteger sendLen = -1;
+        @try {
+            sendLen = [self.outputStream write:data.bytes maxLength:data.length];
+        } @catch (NSException *exception) {
+            NSLog(@"%@",exception);
+        } @finally {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(sendLen != data.length) {
+                    if (self.sendResult) {
+                        self.sendResult(NO);
+                    }
+                } else {
+                    if (self.sendResult) {
+                        self.sendResult(YES);
+                    }
                 }
-            } else {
-                if (self.sendResult) {
-                    self.sendResult(YES);
-                }
-            }
-        });
+            });
+        }
     });
 }
 -(BOOL)recvData {
@@ -157,7 +163,12 @@
        case NSStreamEventHasBytesAvailable:{
            //有字节可读
            dispatch_async(self.readQueue, ^{
-               [self recvData];
+               @try {
+                   [self recvData];
+               } @catch (NSException *exception) {
+                   NSLog(@"%@",exception);
+               }
+               
            });
            break;
        }

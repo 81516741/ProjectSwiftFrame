@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface UIViewController (LDLogin)
 /**
  这个block是登录成功用的
