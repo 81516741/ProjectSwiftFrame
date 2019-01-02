@@ -12,8 +12,12 @@
 - (void)connect:(NSString *)host toPort:(UInt16)port;
 - (void)send:(NSData *)data;
 - (void)close;
-- (BOOL)startTSL;
 @property(copy, nonatomic) void(^connectResult)(BOOL isConnected);
 @property(copy, nonatomic) void(^sendResult)(BOOL isSended);
 @property(copy, nonatomic) void(^msgResult)(NSString * msg);
+@property(strong, nonatomic) NSInputStream * inputStream;
+@property(strong, nonatomic) NSOutputStream * outputStream;
+@property(copy, nonatomic) NSString * host;
+@property(assign, nonatomic) UInt16 port;
 @end
+

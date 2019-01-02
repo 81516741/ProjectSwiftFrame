@@ -59,6 +59,7 @@
 		0D2C104C21C8994A009C6FAB /* SocketLoginTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2C104B21C8994A009C6FAB /* SocketLoginTool.swift */; };
 		0D2C104E21C8D50C009C6FAB /* NetCheckTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2C104D21C8D50C009C6FAB /* NetCheckTool.swift */; };
 		0D2C105121C8DDB9009C6FAB /* ConnectSocketTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D2C105021C8DDB9009C6FAB /* ConnectSocketTool.swift */; };
+		0D479BAA21DC6A8000F6641A /* Socket+extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D479BA921DC6A8000F6641A /* Socket+extension.m */; };
 		0D4E9B9D21CCDF5B00F35E2D /* ios_client.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 0D4E9B9C21CCDF5A00F35E2D /* ios_client.p12 */; };
 		0D4E9BA021CCE67A00F35E2D /* Socket.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4E9B9F21CCE67A00F35E2D /* Socket.m */; };
 		0D609FF021CA0137008C0BC0 /* FunctionUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D609FEF21CA0137008C0BC0 /* FunctionUtil.swift */; };
@@ -143,6 +144,8 @@
 		0D2C104B21C8994A009C6FAB /* SocketLoginTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketLoginTool.swift; sourceTree = "<group>"; };
 		0D2C104D21C8D50C009C6FAB /* NetCheckTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetCheckTool.swift; sourceTree = "<group>"; };
 		0D2C105021C8DDB9009C6FAB /* ConnectSocketTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectSocketTool.swift; sourceTree = "<group>"; };
+		0D479BA821DC6A8000F6641A /* Socket+extension.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Socket+extension.h"; sourceTree = "<group>"; };
+		0D479BA921DC6A8000F6641A /* Socket+extension.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Socket+extension.m"; sourceTree = "<group>"; };
 		0D4E9B9C21CCDF5A00F35E2D /* ios_client.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = ios_client.p12; sourceTree = "<group>"; };
 		0D4E9B9E21CCE67A00F35E2D /* Socket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Socket.h; sourceTree = "<group>"; };
 		0D4E9B9F21CCE67A00F35E2D /* Socket.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Socket.m; sourceTree = "<group>"; };
@@ -363,8 +366,7 @@
 		0D2C104221C77D58009C6FAB /* SocketTool */ = {
 			isa = PBXGroup;
 			children = (
-				0D4E9B9E21CCE67A00F35E2D /* Socket.h */,
-				0D4E9B9F21CCE67A00F35E2D /* Socket.m */,
+				0D479BAB21DC72B900F6641A /* Socket */,
 				0D2C104321C77DAC009C6FAB /* SocketManager.swift */,
 				0D90051321D089C200C9B550 /* UdpSocketManager.swift */,
 				0D2C104921C88C76009C6FAB /* SocketTool.swift */,
@@ -384,6 +386,17 @@
 				0D2C104221C77D58009C6FAB /* SocketTool */,
 			);
 			path = Net;
+			sourceTree = "<group>";
+		};
+		0D479BAB21DC72B900F6641A /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				0D4E9B9E21CCE67A00F35E2D /* Socket.h */,
+				0D4E9B9F21CCE67A00F35E2D /* Socket.m */,
+				0D479BA821DC6A8000F6641A /* Socket+extension.h */,
+				0D479BA921DC6A8000F6641A /* Socket+extension.m */,
+			);
+			path = Socket;
 			sourceTree = "<group>";
 		};
 		0DBBA72D21B5311900CF501A = {
@@ -647,6 +660,7 @@
 				0DBBA76621B6790000CF501A /* TestModel.swift in Sources */,
 				0D1268A721D5BA95008A5547 /* ButtonBehavior.swift in Sources */,
 				0DBBA76E21B6907F00CF501A /* XMLUtil.m in Sources */,
+				0D479BAA21DC6A8000F6641A /* Socket+extension.m in Sources */,
 				0D1268C321D5BB27008A5547 /* Target_Home.swift in Sources */,
 				0DD440CA21B691C300F41C39 /* XMLWriter.m in Sources */,
 				0D609FF221CA1AB4008C0BC0 /* HTTPError.swift in Sources */,

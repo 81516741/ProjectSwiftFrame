@@ -4,6 +4,7 @@
 
 #import "XMLUtil.h"
 #import "Socket.h"
+#import "Socket+extension.h"
 #import "Mediator.h"
 #import "LDBehavior.h"
 #import "LDConfigVCUtil.h"
