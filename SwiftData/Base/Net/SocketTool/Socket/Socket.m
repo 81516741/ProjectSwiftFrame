@@ -64,50 +64,48 @@
     }
     dispatch_async(self.writeQueue, ^{
         NSInteger sendLen = -1;
-        @try {
-            sendLen = [self.outputStream write:data.bytes maxLength:data.length];
-        } @catch (NSException *exception) {
-            NSLog(@"%@",exception);
-        } @finally {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if(sendLen != data.length) {
-                    if (self.sendResult) {
-                        self.sendResult(NO);
-                    }
-                } else {
-                    if (self.sendResult) {
-                        self.sendResult(YES);
-                    }
+        sendLen = [self.outputStream write:data.bytes maxLength:data.length];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(sendLen != data.length) {
+                if (self.sendResult) {
+                    self.sendResult(NO);
                 }
-            });
-        }
+            } else {
+                if (self.sendResult) {
+                    self.sendResult(YES);
+                }
+            }
+        });
     });
 }
+static unsigned char * rcvBuff = NULL;
+static int rcvBuffLen = 0;
 -(BOOL)recvData {
-    static unsigned char * rcvBuff=NULL;
-    static int rcvBuffLen=0;
-    if(NULL==rcvBuff) {
-        rcvBuff=(unsigned char *)malloc(1024*10);
+    if (!_inputStream.hasBytesAvailable) {
+        return NO;
+    }
+    if(NULL == rcvBuff) {
+        rcvBuff = (unsigned char *)malloc(1024 * 10);
     }
     uint8_t dataBuf[4096];
     NSInteger dataLen;
     dataLen=[_inputStream read:dataBuf maxLength:sizeof(dataBuf)];
-    if(dataLen<=0) {
+    if(dataLen <= 0) {
         return NO;
     }
-    memcpy(rcvBuff+rcvBuffLen,dataBuf,dataLen);
-    rcvBuffLen+=dataLen;
-    if(rcvBuffLen<=0) {
+    memcpy(rcvBuff + rcvBuffLen,dataBuf,dataLen);
+    rcvBuffLen += dataLen;
+    if(rcvBuffLen <= 0) {
         return NO;
     }
-    NSData *rcvData=[NSData dataWithBytes:rcvBuff length:rcvBuffLen];
-    NSString *rcvString=[[NSString alloc]initWithData:rcvData encoding:NSUTF8StringEncoding];
-    if(nil==rcvString) {
-        if(rcvBuffLen>=1024*9) {
-            rcvBuffLen=0;
+    NSData * rcvData = [NSData dataWithBytes:rcvBuff length:rcvBuffLen];
+    NSString * rcvString = [[NSString alloc]initWithData:rcvData encoding:NSUTF8StringEncoding];
+    if(rcvString == nil) {
+        if(rcvBuffLen >= 1024 * 9) {
+            rcvBuffLen = 0;
         }
     } else {
-        rcvBuffLen=0;
+        rcvBuffLen = 0;
         if (self.msgResult) {
             dispatch_async(dispatch_get_main_queue(), ^{
                self.msgResult(rcvString);
@@ -159,11 +157,7 @@
        case NSStreamEventHasBytesAvailable:{
            //有字节可读
            dispatch_async(self.readQueue, ^{
-               @try {
-                   [self recvData];
-               } @catch (NSException *exception) {
-                   NSLog(@"%@",exception);
-               }
+               [self recvData];
            });
            break;
        }
