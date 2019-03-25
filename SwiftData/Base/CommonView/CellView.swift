@@ -45,14 +45,14 @@ class CellView: UIView {
     
     class func defaultArrowImageViewCell() -> CellView{
         
-        return CellView(type: .CellViewArrowImageView, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: TransSizeTool.transWidthSize(pxValue:88)))
+        return CellView(type: .CellViewArrowImageView, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: Adapter.adaptSize(pxValue:88)))
     }
     
     /// 【文字】        -R【文字】 【箭头图片】
     ///
     /// - Returns: cell
     class func defaultArrowLabelCell() -> CellView{
-        return CellView(type: .CellViewArrowLabel, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: TransSizeTool.transWidthSize(pxValue:88)))
+        return CellView(type: .CellViewArrowLabel, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: Adapter.adaptSize(pxValue:88)))
     }
     
     
@@ -60,14 +60,14 @@ class CellView: UIView {
     ///
     /// - Returns: cell
     class func defaultSwichCell() -> CellView{
-        return CellView(type: .CellViewSwich, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: TransSizeTool.transWidthSize(pxValue:88)))
+        return CellView(type: .CellViewSwich, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: Adapter.adaptSize(pxValue:88)))
     }
     
     /// 【文字】         -R【含有+ - 的btn】
     ///
     /// - Returns: cell
     class func defaultDeleteAndAddCell() -> CellView{
-        return CellView(type: .CellViewDeleteAndAdd, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: TransSizeTool.transWidthSize(pxValue:88)))
+        return CellView(type: .CellViewDeleteAndAdd, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: Adapter.adaptSize(pxValue:88)))
     }
     
     
@@ -75,13 +75,13 @@ class CellView: UIView {
     ///
     /// - Returns: cell
     class func defaultLeftImageWordRightCheckBoxCell() -> CellView{
-        return CellView(type: .CellViewLeftImageWordRightCheckBox, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: TransSizeTool.transWidthSize(pxValue:88)))
+        return CellView(type: .CellViewLeftImageWordRightCheckBox, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: Adapter.adaptSize(pxValue:88)))
     }
     /// 【文字】             -R【图片】
     ///
     /// - Returns: cell
     class func defaultLeftWordRightImage() -> CellView{
-        return CellView(type: .CellViewLeftWordRightImage, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: TransSizeTool.transWidthSize(pxValue:88)))
+        return CellView(type: .CellViewLeftWordRightImage, frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: Adapter.adaptSize(pxValue:88)))
     }
     
     
@@ -128,36 +128,36 @@ class CellView: UIView {
         })
         if type == .CellViewLeftImageWordRightCheckBox {
             titleLable.mas_makeConstraints({
-                $0?.left.equalTo()(leftImageView.mas_right)?.with().offset()(TransSizeTool.transWidthSize(pxValue:20))
+                $0?.left.equalTo()(leftImageView.mas_right)?.with().offset()(Adapter.adaptSize(pxValue:20))
                 $0?.centerY.equalTo()(self)
             })
         } else {
             titleLable.mas_makeConstraints({
                 $0?.centerY.equalTo()(self)
-                $0?.left.mas_equalTo()(TransSizeTool.transWidthSize(pxValue:30))
+                $0?.left.mas_equalTo()(Adapter.adaptSize(pxValue:30))
             })
         }
         subtitleLable.mas_makeConstraints({
-            $0?.left.equalTo()(titleLable.mas_right)?.offset()(TransSizeTool.transWidthSize(pxValue: 20))
+            $0?.left.equalTo()(titleLable.mas_right)?.offset()(Adapter.adaptSize(pxValue: 20))
             $0?.centerY.equalTo()(self)
         })
         switch type {
         case .CellViewArrowImageView:
             arrowImageView.mas_makeConstraints({
                 $0?.centerY.equalTo()(self)
-                $0?.right.mas_equalTo()(TransSizeTool.transWidthSize(pxValue:-30))
-                $0?.size.mas_equalTo()(CGSize(width: TransSizeTool.transWidthSize(pxValue:46), height: TransSizeTool.transWidthSize(pxValue:46)))
+                $0?.right.mas_equalTo()(Adapter.adaptSize(pxValue:-30))
+                $0?.size.mas_equalTo()(CGSize(width: Adapter.adaptSize(pxValue:46), height: Adapter.adaptSize(pxValue:46)))
             })
             rightIconImageView.mas_makeConstraints({
                 $0?.centerY.equalTo()(self)
                 $0?.right.equalTo()(arrowImageView.mas_left)
-                $0?.size.mas_equalTo()(CGSize(width: TransSizeTool.transWidthSize(pxValue:46), height: TransSizeTool.transWidthSize(pxValue:46)))
+                $0?.size.mas_equalTo()(CGSize(width: Adapter.adaptSize(pxValue:46), height: Adapter.adaptSize(pxValue:46)))
             })
         case .CellViewArrowLabel:
             arrowImageView.mas_makeConstraints({
                 $0?.centerY.equalTo()(self)
-                $0?.right.mas_equalTo()(TransSizeTool.transWidthSize(pxValue:-30))
-                $0?.size.mas_equalTo()(CGSize(width: TransSizeTool.transWidthSize(pxValue:46), height: TransSizeTool.transWidthSize(pxValue:46)))
+                $0?.right.mas_equalTo()(Adapter.adaptSize(pxValue:-30))
+                $0?.size.mas_equalTo()(CGSize(width: Adapter.adaptSize(pxValue:46), height: Adapter.adaptSize(pxValue:46)))
             })
             rightLable.mas_makeConstraints({
                 $0?.centerY.equalTo()(self)
@@ -166,44 +166,44 @@ class CellView: UIView {
         case .CellViewSwich:
             swichUI.mas_makeConstraints({
                 $0?.centerY.equalTo()(self)
-                $0?.right.mas_equalTo()(TransSizeTool.transWidthSize(pxValue:-30))
+                $0?.right.mas_equalTo()(Adapter.adaptSize(pxValue:-30))
             })
         case .CellViewDeleteAndAdd:
             deleteAndAddBtn.mas_makeConstraints({
                 $0?.centerY.equalTo()(self)
-                $0?.right.mas_equalTo()(TransSizeTool.transWidthSize(pxValue:-30))
-                $0?.size.mas_equalTo()(CGSize(width: TransSizeTool.transWidthSize(pxValue:180), height: TransSizeTool.transHeightSize(pxValue:50)))
+                $0?.right.mas_equalTo()(Adapter.adaptSize(pxValue:-30))
+                $0?.size.mas_equalTo()(CGSize(width: Adapter.adaptSize(pxValue:180), height: Adapter.adaptSize(pxValue:50)))
             })
             
         case .CellViewLeftImageWordRightCheckBox:
             leftImageView.mas_makeConstraints({
                 $0?.centerY.equalTo()(self)
-                $0?.left.mas_equalTo()(TransSizeTool.transWidthSize(pxValue:30))
-                $0?.size.mas_equalTo()(CGSize(width: TransSizeTool.transWidthSize(pxValue:40), height: TransSizeTool.transWidthSize(pxValue:40)))
+                $0?.left.mas_equalTo()(Adapter.adaptSize(pxValue:30))
+                $0?.size.mas_equalTo()(CGSize(width: Adapter.adaptSize(pxValue:40), height: Adapter.adaptSize(pxValue:40)))
             })
             checkBoxImageView.mas_makeConstraints({
-                $0?.right.equalTo()(TransSizeTool.transWidthSize(pxValue:-30))
+                $0?.right.equalTo()(Adapter.adaptSize(pxValue:-30))
                 $0?.centerY.equalTo()(self)
-                $0?.size.equalTo()(CGSize(width: TransSizeTool.transWidthSize(pxValue:30), height: TransSizeTool.transWidthSize(pxValue:30)))
+                $0?.size.equalTo()(CGSize(width: Adapter.adaptSize(pxValue:30), height: Adapter.adaptSize(pxValue:30)))
             })
             
         case .CellViewLeftWordRightImage:
             checkBoxImageView.mas_makeConstraints({
-                $0?.right.equalTo()(TransSizeTool.transWidthSize(pxValue:-30))
+                $0?.right.equalTo()(Adapter.adaptSize(pxValue:-30))
                 $0?.centerY.equalTo()(self)
-                $0?.size.equalTo()(CGSize(width: TransSizeTool.transWidthSize(pxValue:30), height: TransSizeTool.transWidthSize(pxValue:30)))
+                $0?.size.equalTo()(CGSize(width: Adapter.adaptSize(pxValue:30), height: Adapter.adaptSize(pxValue:30)))
             })
         }
     }
     
     func updateLeftImageSize(size:CGSize) {
         leftImageView.mas_updateConstraints({
-            $0?.size.equalTo()(CGSize(width: TransSizeTool.transWidthSize(pxValue: size.width), height: TransSizeTool.transWidthSize(pxValue: size.height)))
+            $0?.size.equalTo()(CGSize(width: Adapter.adaptSize(pxValue: size.width), height: Adapter.adaptSize(pxValue: size.height)))
         })
     }
     func updateLeftImageLeftMargin(margin:CGFloat) {
         leftImageView.mas_updateConstraints({
-            $0?.left.equalTo()(TransSizeTool.transWidthSize(pxValue: margin))
+            $0?.left.equalTo()(Adapter.adaptSize(pxValue: margin))
         })
     }
     
@@ -242,13 +242,13 @@ class CellView: UIView {
     //MARK: 懒加载
     lazy var titleLable    : UILabel = {
         let titleLable = UILabel()
-        titleLable.font = TransSizeTool.transFontSize(fontSize: 30)
+        titleLable.font = Adapter.adaptFontSize(fontSize: 30)
         titleLable.textColor = UIColor.lightGray
         return titleLable
     }()
     lazy var subtitleLable    : UILabel = {
         let titleLable = UILabel()
-        titleLable.font = TransSizeTool.transFontSize(fontSize: 28)
+        titleLable.font = Adapter.adaptFontSize(fontSize: 28)
         titleLable.textColor = UIColor.lightGray
         return titleLable
     }()
@@ -273,7 +273,7 @@ class CellView: UIView {
     
     lazy var rightLable    : UILabel = {
         let rightLable = UILabel()
-        rightLable.font = TransSizeTool.transFontSize(fontSize: 30)
+        rightLable.font = Adapter.adaptFontSize(fontSize: 30)
         rightLable.textColor = UIColor.lightGray
         return rightLable
     }()
@@ -360,7 +360,7 @@ class DeleteAndAddBtn: UIView {
     lazy var delebtn : UIButton = {
         let delebtn = UIButton(type:.custom)
         delebtn.tag = 10
-        delebtn.titleLabel?.font = TransSizeTool.transFontSize(fontSize: 28)
+        delebtn.titleLabel?.font = Adapter.adaptFontSize(fontSize: 28)
         delebtn.setTitle(NSLocalizedString("delete_btn", comment: ""), for: .normal)
         delebtn.setTitle(NSLocalizedString("delete_btn", comment: ""), for: .selected)
         delebtn.setTitleColor(UIColor.lightGray, for: .normal)
@@ -370,7 +370,7 @@ class DeleteAndAddBtn: UIView {
     lazy var addBtn : UIButton = {
         let addBtn = UIButton(type:.custom)
         addBtn.tag = 20
-        addBtn.titleLabel?.font = TransSizeTool.transFontSize(fontSize: 28)
+        addBtn.titleLabel?.font = Adapter.adaptFontSize(fontSize: 28)
         addBtn.setTitle(NSLocalizedString("add_tcl_text", comment: ""), for: .normal)
         addBtn.setTitle(NSLocalizedString("add_tcl_text", comment: ""), for: .selected)
         addBtn.setTitleColor(UIColor.lightGray, for: .normal)

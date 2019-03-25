@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -26,11 +25,7 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon" translatesAutoresizingMaskIntoConstraints="NO" id="Dvk-zH-oKS">
                             <rect key="frame" x="147.5" y="30" width="80" height="80"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="80" id="3Q8-Ia-ZQj">
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="boolean" keyPath="adjustWidth" value="YES"/>
-                                    </userDefinedRuntimeAttributes>
-                                </constraint>
+                                <constraint firstAttribute="width" constant="80" id="YvP-au-dh3"/>
                                 <constraint firstAttribute="width" secondItem="Dvk-zH-oKS" secondAttribute="height" multiplier="1:1" id="z07-t3-M7P"/>
                             </constraints>
                             <userDefinedRuntimeAttributes>
@@ -42,11 +37,7 @@
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入账号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4pD-zU-AfU">
                             <rect key="frame" x="30" y="130" width="315" height="38"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="38" id="2Qz-pG-G2P">
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="boolean" keyPath="adjustHeight" value="YES"/>
-                                    </userDefinedRuntimeAttributes>
-                                </constraint>
+                                <constraint firstAttribute="height" constant="38" id="ih4-iX-l7r"/>
                             </constraints>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -55,25 +46,17 @@
                         <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yXQ-FE-u6J">
                             <rect key="frame" x="30" y="198" width="315" height="38"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="38" id="dYE-cY-da1">
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="boolean" keyPath="adjustHeight" value="YES"/>
-                                    </userDefinedRuntimeAttributes>
-                                </constraint>
+                                <constraint firstAttribute="height" constant="38" id="Dd2-Vd-3Hc"/>
                             </constraints>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                         </textField>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8KZ-Xa-VF0">
-                            <rect key="frame" x="20" y="256" width="335" height="38"/>
+                            <rect key="frame" x="20" y="256" width="335" height="44"/>
                             <color key="backgroundColor" red="0.0" green="0.58980089430000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="38" id="ijo-h2-7yN">
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="boolean" keyPath="adjustHeight" value="YES"/>
-                                    </userDefinedRuntimeAttributes>
-                                </constraint>
+                                <constraint firstAttribute="height" constant="44" id="hPi-yk-GYI"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <state key="normal" title="登   录">
@@ -104,61 +87,21 @@
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="8KZ-Xa-VF0" firstAttribute="top" secondItem="yXQ-FE-u6J" secondAttribute="bottom" constant="20" id="ExV-zN-zmn">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustHeight" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </constraint>
-                        <constraint firstItem="Dvk-zH-oKS" firstAttribute="top" secondItem="CtT-zT-uom" secondAttribute="top" constant="30" id="FIl-IN-W38">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustHeight" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </constraint>
-                        <constraint firstAttribute="trailing" secondItem="8KZ-Xa-VF0" secondAttribute="trailing" constant="20" id="GmT-7E-XwP">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustWidth" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </constraint>
+                        <constraint firstItem="8KZ-Xa-VF0" firstAttribute="top" secondItem="yXQ-FE-u6J" secondAttribute="bottom" constant="20" id="ExV-zN-zmn"/>
+                        <constraint firstItem="Dvk-zH-oKS" firstAttribute="top" secondItem="CtT-zT-uom" secondAttribute="top" constant="30" id="FIl-IN-W38"/>
+                        <constraint firstAttribute="trailing" secondItem="8KZ-Xa-VF0" secondAttribute="trailing" constant="20" id="GmT-7E-XwP"/>
                         <constraint firstItem="iNL-yF-kOA" firstAttribute="top" secondItem="yXQ-FE-u6J" secondAttribute="bottom" id="LTX-eE-2QM"/>
                         <constraint firstItem="DoC-kH-aob" firstAttribute="leading" secondItem="4pD-zU-AfU" secondAttribute="leading" id="MyH-Ud-hMp"/>
-                        <constraint firstAttribute="trailing" secondItem="yXQ-FE-u6J" secondAttribute="trailing" constant="30" id="aah-bw-Bwc">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustWidth" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </constraint>
-                        <constraint firstItem="4pD-zU-AfU" firstAttribute="top" secondItem="Dvk-zH-oKS" secondAttribute="bottom" constant="20" id="bH6-bm-Hsx">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustHeight" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </constraint>
+                        <constraint firstAttribute="trailing" secondItem="yXQ-FE-u6J" secondAttribute="trailing" constant="30" id="aah-bw-Bwc"/>
+                        <constraint firstItem="4pD-zU-AfU" firstAttribute="top" secondItem="Dvk-zH-oKS" secondAttribute="bottom" constant="20" id="bH6-bm-Hsx"/>
                         <constraint firstItem="Dvk-zH-oKS" firstAttribute="centerX" secondItem="CtT-zT-uom" secondAttribute="centerX" id="i0p-LY-gZK"/>
                         <constraint firstItem="DoC-kH-aob" firstAttribute="top" secondItem="4pD-zU-AfU" secondAttribute="bottom" id="iut-Qg-tXR"/>
-                        <constraint firstItem="4pD-zU-AfU" firstAttribute="leading" secondItem="CtT-zT-uom" secondAttribute="leading" constant="30" id="jBP-MF-3NF">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustWidth" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </constraint>
-                        <constraint firstAttribute="trailing" secondItem="4pD-zU-AfU" secondAttribute="trailing" constant="30" id="l2t-TS-kf7">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustWidth" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </constraint>
-                        <constraint firstItem="yXQ-FE-u6J" firstAttribute="top" secondItem="4pD-zU-AfU" secondAttribute="bottom" constant="30" id="qHI-BZ-m8M">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustHeight" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </constraint>
+                        <constraint firstItem="4pD-zU-AfU" firstAttribute="leading" secondItem="CtT-zT-uom" secondAttribute="leading" constant="30" id="jBP-MF-3NF"/>
+                        <constraint firstAttribute="trailing" secondItem="4pD-zU-AfU" secondAttribute="trailing" constant="30" id="l2t-TS-kf7"/>
+                        <constraint firstItem="yXQ-FE-u6J" firstAttribute="top" secondItem="4pD-zU-AfU" secondAttribute="bottom" constant="30" id="qHI-BZ-m8M"/>
                         <constraint firstItem="iNL-yF-kOA" firstAttribute="leading" secondItem="yXQ-FE-u6J" secondAttribute="leading" id="tnl-Jw-5uv"/>
-                        <constraint firstItem="8KZ-Xa-VF0" firstAttribute="leading" secondItem="CtT-zT-uom" secondAttribute="leading" constant="20" id="uBc-rG-11c">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustWidth" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </constraint>
-                        <constraint firstItem="yXQ-FE-u6J" firstAttribute="leading" secondItem="CtT-zT-uom" secondAttribute="leading" constant="30" id="xEb-ch-OAS">
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustWidth" value="YES"/>
-                            </userDefinedRuntimeAttributes>
-                        </constraint>
+                        <constraint firstItem="8KZ-Xa-VF0" firstAttribute="leading" secondItem="CtT-zT-uom" secondAttribute="leading" constant="20" id="uBc-rG-11c"/>
+                        <constraint firstItem="yXQ-FE-u6J" firstAttribute="leading" secondItem="CtT-zT-uom" secondAttribute="leading" constant="30" id="xEb-ch-OAS"/>
                     </constraints>
                 </view>
             </subviews>

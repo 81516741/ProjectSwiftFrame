@@ -13,7 +13,7 @@ class TableHeaderView:UIView {
         let contentView = TableHeaderView()
         contentView.addSubview(contentView.label)
         contentView.label.mas_makeConstraints({
-            $0?.left.equalTo()(TransSizeTool.transWidthSize(pxValue: 30))
+            $0?.left.equalTo()(Adapter.adaptSize(pxValue: 30))
             $0?.right.equalTo()(0)
             $0?.bottom.equalTo()(0)
             $0?.top.equalTo()(0)
@@ -26,7 +26,7 @@ class TableHeaderView:UIView {
         let label = UILabel()
         label.text = "你好啊"
         label.textColor = UIColor.lightGray
-        label.font = TransSizeTool.transFontSize(fontSize: 26)
+        label.font = Adapter.adaptFontSize(fontSize: 26)
         label.backgroundColor = UIColor.clear
         return label
     }()

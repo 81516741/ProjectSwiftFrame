@@ -29,6 +29,15 @@
         }
     });
 }
+-(UIViewController *)childViewControllerForStatusBarStyle
+{
+    return self.visibleViewController;
+}
+
+-(UIViewController *)childViewControllerForStatusBarHidden
+{
+    return self.visibleViewController;
+}
 
 #pragma mark - hook method
 -(void)ld_pushViewController:(UIViewController *)viewController animated:(BOOL)animated
@@ -51,7 +60,7 @@
 - (void)addGesture
 {
     id target = self.interactivePopGestureRecognizer.delegate;
-    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:target action:NSSelectorFromString(@"handleNavigationTransition:")];
+    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:target action:NSSelectorFromString(@"handleNavigationTransition:")];
     pan.delegate = self;
     [self.view addGestureRecognizer:pan];
     [self.interactivePopGestureRecognizer setEnabled:NO];
@@ -78,17 +87,6 @@
     }
     
     return YES;
-}
-
-#pragma mark  - set get
-- (void)setLd_theme:(NaviBarTheme)ld_theme
-{
-    objc_setAssociatedObject(self, @selector(ld_theme), @(ld_theme), OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (NaviBarTheme)ld_theme
-{
-    return [objc_getAssociatedObject(self, _cmd) integerValue];
 }
 
 @end

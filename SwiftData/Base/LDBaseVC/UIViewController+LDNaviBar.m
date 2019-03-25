@@ -12,9 +12,10 @@
 #import "LDLoadBaseSourceUtil.h"
 #import "UINavigationController+LDBase.h"
 
-
 @interface UIViewController (LDBasePrivate)
-@property (strong ,nonatomic)UIColor * ld_rightItemColor;
+@property (strong ,nonatomic)UIButton * ld_rightBtn;
+@property (strong ,nonatomic)UIColor * ld_rightBtnTitleColor;
+
 @end
 
 @implementation UIViewController (LDNaviBar)
@@ -37,6 +38,21 @@
     });
 }
 
+#pragma mark - statusBarStyle Setting
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    UIStatusBarStyle style = UIStatusBarStyleDefault;
+    if (self.ld_theme ==  NaviBarThemeBlue) {
+        style = UIStatusBarStyleLightContent;
+    }
+    return style;
+}
+- (void)configStatusBarStyle {
+    UIStatusBarStyle style = UIStatusBarStyleDefault;
+    if (self.ld_theme ==  NaviBarThemeBlue) {
+        style = UIStatusBarStyleLightContent;
+    }
+    UIApplication.sharedApplication.statusBarStyle = style;
+}
 #pragma mark - hook method
 - (void)ld_viewDidLoad
 {
@@ -50,33 +66,41 @@
     [self ld_configNavigationBar];
     [self.navigationController setNavigationBarHidden:self.ld_hideNavigationBar animated:animated];
     if (self.ld_naviBarColor) {
-        [self ld_setNavibarColor:self.ld_naviBarColor];
+        [self ld_setNavibarColor:self.ld_naviBarColor showdefaultBottomLine:NO];
     }
-
+    [self configStatusBarStyle];
 }
-
 #pragma mark - public method
--(void)ld_setNavibarColor:(UIColor *)color
+-(void)ld_setNavibarColor:(UIColor *)color showdefaultBottomLine:(BOOL)isShow
 {
     CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
     [self.navigationController.navigationBar setBackgroundImage:[UIViewController ld_imageWithBgColor:color size:CGSizeMake(screenW, 64)] forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.shadowImage = [UIViewController ld_imageWithBgColor:[UIColor clearColor] size:CGSizeMake(screenW, 1/[UIScreen mainScreen].scale)];
+    if (isShow) {
+        self.navigationController.navigationBar.shadowImage = nil;
+    } else {
+        self.navigationController.navigationBar.shadowImage = [UIViewController ld_imageWithBgColor:[UIColor clearColor] size:CGSizeMake(screenW, 1/[UIScreen mainScreen].scale)];
+    }
 }
 
 - (void)ld_setNaviBarRightItemText:(NSString *)text color:(UIColor *)color sel:(SEL)sel
 {
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:text style:UIBarButtonItemStylePlain target:self action:sel];
-    self.navigationItem.rightBarButtonItem.tintColor = color;
-    self.ld_rightItemColor = color;
+    UIButton * rightBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 58, 44)];
+    rightBtn.titleLabel.font = [UIFont boldSystemFontOfSize:[self ld_fontSize:16]];
+    [rightBtn setTitle:text forState:UIControlStateNormal];
+    [rightBtn setTitleColor:color forState:UIControlStateNormal];
+    [rightBtn addTarget:self action:sel forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightBtn];
+    self.ld_rightBtnTitleColor = color;
+    self.ld_rightBtn = rightBtn;
 }
 
 - (void)ld_setRightItemEnable:(BOOL)enable
 {
     self.navigationItem.rightBarButtonItem.enabled = enable;
     if (enable) {
-        self.navigationItem.rightBarButtonItem.tintColor = self.ld_rightItemColor;
+        [self.ld_rightBtn setTitleColor:self.ld_rightBtnTitleColor forState:UIControlStateNormal];
     } else{
-        self.navigationItem.rightBarButtonItem.tintColor = [UIColor lightGrayColor];
+        [self.ld_rightBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     }
 }
 
@@ -97,30 +121,40 @@
 }
 
 #pragma  mark - private method
+- (CGFloat)ld_fontSize:(CGFloat)font {
+    return (375.0 / UIScreen.mainScreen.bounds.size.width) * font;
+}
 - (void)ld_configNavigationBar
 {
     UIColor * worldColor;
-    NSString * backIconName;
-    if (self.navigationController.ld_theme == NaviBarThemeWhite) {
+    //设置导航栏的颜色
+    if (self.ld_theme == NaviBarThemeWhite) {
         worldColor = [UIColor grayColor];
-        backIconName = @"icon_back_gray";
-        [self ld_setNavibarColor:[UIColor whiteColor]];
-    } else if (self.navigationController.ld_theme == NaviBarThemeBlue) {
+        [self ld_setNavibarColor:[UIColor whiteColor] showdefaultBottomLine:YES];
+    } else if (self.ld_theme == NaviBarThemeBlue) {
         worldColor = [UIColor whiteColor];
-        backIconName = @"icon_back_white";
-        [self ld_setNavibarColor:[UIColor blueColor]];
+        [self ld_setNavibarColor:[UIColor blueColor] showdefaultBottomLine:NO];
     }
-    //设置title颜色
+    //设置title
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0 , 100, 44)];
     titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.font = [UIFont systemFontOfSize:16];
+    titleLabel.font = [UIFont boldSystemFontOfSize:[self ld_fontSize:16]];
     titleLabel.textColor = worldColor;
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.text = self.title;
     self.navigationItem.titleView = titleLabel;
-    
-    //添加返回按钮
-    if(self.navigationController.childViewControllers.count > 1){
+    //设置返回键的UI
+    if (self.navigationController.childViewControllers.count == 1)
+    {
+        
+    } else if(self.navigationController.childViewControllers.count > 1){
+        //设置返回键
+        NSString * backIconName;
+        if (self.ld_theme == NaviBarThemeWhite) {
+            backIconName = @"icon_back_gray";
+        } else if (self.ld_theme == NaviBarThemeBlue) {
+            backIconName = @"icon_back_white";
+        }
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [backButton addTarget:self action:@selector(ld_back) forControlEvents:UIControlEventTouchUpInside];
         backButton.frame = CGRectMake(0, 0, 58, 44);
@@ -131,7 +165,7 @@
         imageView.frame = CGRectMake(0, 10, 10, 20);
         
         UILabel * wordLable = [[UILabel alloc] initWithFrame:CGRectMake(15, -2, 40, 44)];
-        wordLable.font = [UIFont systemFontOfSize:15];
+        wordLable.font = [UIFont boldSystemFontOfSize:[self ld_fontSize:16]];
         wordLable.textColor = worldColor;
         wordLable.text = @"返回";
         
@@ -145,11 +179,12 @@
     
 }
 
-
 - (void)ld_observerDealloc
 {
     NSString * VCName = NSStringFromClass(self.class);
     self.deallocBlock = ^{
+#warning TODO:
+//        [[LDMediator sharedInstance] http_cancelAllHTTPRequest:VCName];
         NSLog(@"\n控制器 (%@) ------- 被销毁",VCName);
     };
 }
@@ -174,12 +209,21 @@
 }
 
 #pragma mark - set get
-- (void)setLd_rightItemColor:(UIColor *)ld_rightItemColor
+- (void)setLd_rightBtnTitleColor:(UIColor *)ld_rightBtnTitleColor
 {
-    objc_setAssociatedObject(self, @selector(ld_rightItemColor), ld_rightItemColor, OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self, @selector(ld_rightBtnTitleColor), ld_rightBtnTitleColor, OBJC_ASSOCIATION_RETAIN);
 }
 
-- (UIColor *)ld_rightItemColor
+- (UIButton *)ld_rightBtnTitleColor
+{
+    return objc_getAssociatedObject(self, _cmd);
+}
+- (void)setLd_rightBtn:(UIColor *)ld_rightBtn
+{
+    objc_setAssociatedObject(self, @selector(ld_rightBtn), ld_rightBtn, OBJC_ASSOCIATION_RETAIN);
+}
+
+- (UIButton *)ld_rightBtn
 {
     return objc_getAssociatedObject(self, _cmd);
 }
@@ -213,5 +257,15 @@
 - (void)setLd_naviBarColor:(UIColor *)ld_naviBarColor
 {
     objc_setAssociatedObject(self, @selector(ld_naviBarColor), ld_naviBarColor, OBJC_ASSOCIATION_RETAIN);
+}
+
+- (void)setLd_theme:(NaviBarTheme)ld_theme
+{
+    objc_setAssociatedObject(self, @selector(ld_theme), @(ld_theme), OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (NaviBarTheme)ld_theme
+{
+    return [objc_getAssociatedObject(self, _cmd) integerValue];
 }
 @end

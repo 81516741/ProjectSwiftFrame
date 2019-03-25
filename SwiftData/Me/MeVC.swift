@@ -13,7 +13,7 @@ class MeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "我"
-        navigationController?.ld_theme = .blue
+        ld_theme = NaviBarThemeWhite
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         navigationController?.pushViewController(OtherVC1(), animated: true)

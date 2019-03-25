@@ -21,19 +21,19 @@ class TopImageBottomWordView:UIView {
     
     func updateImageViewSize(size:CGSize) {
         imageView.mas_updateConstraints({
-            $0?.width.equalTo()(TransSizeTool.transWidthSize(pxValue:size.width))
-            $0?.height.equalTo()(TransSizeTool.transWidthSize(pxValue:size.height))
+            $0?.width.equalTo()(Adapter.adaptSize(pxValue:size.width))
+            $0?.height.equalTo()(Adapter.adaptSize(pxValue:size.height))
         })
     }
     func updateImageViewOffsetCenter(offset:CGFloat) {
         imageView.mas_updateConstraints({
-            $0?.centerY.equalTo()(self)?.offset()(TransSizeTool.transWidthSize(pxValue:offset))
+            $0?.centerY.equalTo()(self)?.offset()(Adapter.adaptSize(pxValue:offset))
         })
     }
     
     func updateWordMarginToImageView(offset:CGFloat) {
         bottomLabel.mas_updateConstraints({
-             $0?.top.equalTo()(imageView.mas_bottom)?.offset()(TransSizeTool.transWidthSize(pxValue: offset))
+             $0?.top.equalTo()(imageView.mas_bottom)?.offset()(Adapter.adaptSize(pxValue: offset))
         })
     }
     fileprivate func config() {
@@ -53,9 +53,9 @@ class TopImageBottomWordView:UIView {
     fileprivate func configCons() {
         imageView.mas_makeConstraints({
             $0?.centerX.equalTo()(self)
-            $0?.centerY.equalTo()(self)?.offset()(TransSizeTool.transWidthSize(pxValue:-20))
-            $0?.width.equalTo()(TransSizeTool.transWidthSize(pxValue:112))
-            $0?.height.equalTo()(TransSizeTool.transWidthSize(pxValue:112))
+            $0?.centerY.equalTo()(self)?.offset()(Adapter.adaptSize(pxValue:-20))
+            $0?.width.equalTo()(Adapter.adaptSize(pxValue:112))
+            $0?.height.equalTo()(Adapter.adaptSize(pxValue:112))
         })
         
         bottomLabel.mas_makeConstraints({
@@ -68,13 +68,13 @@ class TopImageBottomWordView:UIView {
         closeImageView.mas_makeConstraints({
             $0?.right.equalTo()(imageView.mas_right)
             $0?.top.equalTo()(imageView.mas_top)
-            $0?.size.equalTo()(CGSize(width: TransSizeTool.transWidthSize(pxValue:38), height: TransSizeTool.transWidthSize(pxValue:38)))
+            $0?.size.equalTo()(CGSize(width: Adapter.adaptSize(pxValue:38), height: Adapter.adaptSize(pxValue:38)))
         })
         
         topRightImageView.mas_makeConstraints({
             $0?.right.equalTo()(imageView.mas_right)
             $0?.top.equalTo()(imageView.mas_top)
-            $0?.size.equalTo()(CGSize(width: TransSizeTool.transWidthSize(pxValue:38), height: TransSizeTool.transWidthSize(pxValue:38)))
+            $0?.size.equalTo()(CGSize(width: Adapter.adaptSize(pxValue:38), height: Adapter.adaptSize(pxValue:38)))
         })
     }
     
@@ -87,7 +87,7 @@ class TopImageBottomWordView:UIView {
     
     override func layoutSubviews() {
         if circleImageView {
-            imageView.layer.cornerRadius = TransSizeTool.transWidthSize(pxValue:113) * 0.5
+            imageView.layer.cornerRadius = Adapter.adaptSize(pxValue:113) * 0.5
             imageView.clipsToBounds = true
         }
         super.layoutSubviews()
@@ -102,7 +102,7 @@ class TopImageBottomWordView:UIView {
     lazy var bottomLabel : UILabel = {
         let bottomLabel = UILabel()
         bottomLabel.textColor = UIColor.lightGray
-        bottomLabel.font = TransSizeTool.transFontSize(fontSize: 26)
+        bottomLabel.font = Adapter.adaptFontSize(fontSize: 26)
         bottomLabel.textAlignment = NSTextAlignment.center
         return bottomLabel
     }()
