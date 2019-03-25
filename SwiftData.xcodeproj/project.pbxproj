@@ -228,11 +228,12 @@
 			isa = PBXGroup;
 			children = (
 				0D12681821D47FBA008A5547 /* File */,
+				0D12687721D5BA95008A5547 /* LDBehavior */,
 				0D2C104F21C8DD96009C6FAB /* Net */,
 				0DD440CE21B79C8000F41C39 /* DBTool */,
 				0D12681421D45DAB008A5547 /* Utils */,
 				0D12687021D5BA95008A5547 /* CommonView */,
-				0D12687621D5BA95008A5547 /* LDAboutXib */,
+				0D12687621D5BA95008A5547 /* Adapter */,
 				0D12688721D5BA95008A5547 /* LDBaseVC */,
 				0D12689E21D5BA95008A5547 /* LDMediator */,
 			);
@@ -252,15 +253,14 @@
 			path = CommonView;
 			sourceTree = "<group>";
 		};
-		0D12687621D5BA95008A5547 /* LDAboutXib */ = {
+		0D12687621D5BA95008A5547 /* Adapter */ = {
 			isa = PBXGroup;
 			children = (
-				0D12687721D5BA95008A5547 /* LDBehavior */,
 				0D1268E721D600F8008A5547 /* XIbCornerRadius.swift */,
 				0DAFC8492248BF04009DADD7 /* Adapter.swift */,
 				0DAFC84A2248BF04009DADD7 /* UIFont+Adapter.m */,
 			);
-			path = LDAboutXib;
+			path = Adapter;
 			sourceTree = "<group>";
 		};
 		0D12687721D5BA95008A5547 /* LDBehavior */ = {
